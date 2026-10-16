@@ -1,0 +1,33 @@
+name: Build Kyoz
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile project
+        run: g++ -std=c++17 -O2 -static -s -o kyo kyo.cpp
+
+      - name: Create tarball
+        run: tar -cvf kyoz.tar kyo
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build
+          body: "Build automático del commit ${{ github.sha }}"
+          files: |
+            kyo
+            kyoz.tar
