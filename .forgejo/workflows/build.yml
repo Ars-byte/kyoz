@@ -22,13 +22,13 @@ jobs:
         run: |
           xbps-install -Syu --repository=https://repo-de.voidlinux.org/current/ xbps
           xbps-install -yu --repository=https://repo-de.voidlinux.org/current/
-          xbps-install -y --repository=https://repo-de.voidlinux.org/current/ nodejs gcc make pkg-config zig xxd sed coreutils tar
+          xbps-install -y --repository=https://repo-de.voidlinux.org/current/ nodejs gcc make pkg-config xxd sed coreutils tar
 
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Compile project
-        run: zig build-exe kyo.zig
+        run: g++ -std=c++17 -O2 -static -s -o kyo kyo.cpp
 
       - name: Create tarball
         run: tar -cvf kyoz.tar kyo
